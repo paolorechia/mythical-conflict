@@ -40,7 +40,7 @@ impl combatable::Combatable for Character {
         let x_distance  = (self.position.x - x).abs();
         let y_distance = (self.position.y - y).abs();
         if x_distance + y_distance > speed {
-            Err(combatable::CombatError::MoveError("Move target position is beyond character reach."))
+            Err(combatable::CombatError::MoveError("Move target position is beyond character reach"))
         } else {
             Ok(EventRequest::MoveEventRequest(x, y))
         }
@@ -49,9 +49,28 @@ impl combatable::Combatable for Character {
     fn act(&self, action: Action) -> Result<EventRequest, combatable::CombatError> {
         match action {
             Action::Attack(x, y) => {
-                Ok(EventRequest::AttackEventRequest(x, y))
+                let x_distance  = (self.position.x - x).abs();
+                let y_distance = (self.position.y - y).abs();
+                if x_distance + y_distance > 1 {
+                    Err(combatable::CombatError::ActionError("Attack beyond reach"))
+                } else {
+                    Ok(EventRequest::AttackEventRequest(x, y))
+                }
             },
-            _ => Err(combatable::CombatError::ActionError("Unknown action type"))
+            Action::SpecialAbility(name) => {
+                let special_abilities = self.class.get_special_abilities();
+                for ability in special_abilities {
+                    if name == ability.name {
+                        return Ok(EventRequest::SpecialAbilityRequest(name))
+                    }
+                }
+                Err(combatable::CombatError::ActionError("Unknown special ability"))
+            },
+            Action::UseItem(_) => {
+                Err(combatable::CombatError::ActionError("Not implemented!"))
+            }
+            Action::Defend() => Ok(EventRequest::DefendRequest()),
+            Action::Rest() => Ok(EventRequest::RestRequest()),
         }
     }
 }
