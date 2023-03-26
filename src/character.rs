@@ -61,7 +61,7 @@ impl combatable::Combatable for Character {
                 let special_abilities = self.class.get_special_abilities();
                 for ability in special_abilities {
                     if name == ability.name {
-                        return Ok(EventRequest::SpecialAbilityRequest(name))
+                        return Ok(EventRequest::SpecialAbilityRequest(ability))
                     }
                 }
                 Err(combatable::CombatError::ActionError("Unknown special ability"))
