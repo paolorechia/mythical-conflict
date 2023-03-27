@@ -1,9 +1,9 @@
 use crate::actions;
 use crate::events::EventRequest;
 
-pub enum CombatError {
-    MoveError(&'static str),
-    ActionError(&'static str)
+pub enum CombatError<'a> {
+    MoveError(&'a str),
+    ActionError(&'a str)
 }
 
 pub trait Combatable {

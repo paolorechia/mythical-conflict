@@ -1,13 +1,13 @@
 use super::attributes::Attributes;
 
 #[derive(Debug)]
-pub struct Race {
-    pub name: &'static str,
-    pub description: &'static str,
+pub struct Race<'a> {
+    pub name: &'a str,
+    pub description: &'a str,
     pub base_attributes: Attributes,
 }
 
-impl Race {
+impl<'a> Race<'a> {
     pub fn human() -> Self {
         Race {
             name: "Human",

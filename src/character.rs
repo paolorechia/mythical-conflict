@@ -9,16 +9,16 @@ use super::position::Position;
 use crate::events::EventRequest;
 
 #[derive(Debug)]
-pub struct Character {
+pub struct Character<'a> {
     pub name: String,
-    pub race: race::Race,
+    pub race: race::Race<'a>,
     pub class: Class,
     pub level: i32, 
     pub bonus_attributes: attributes::Attributes,
     pub position: Position,
 }
 
-impl Character {
+impl<'a> Character<'a> {
     fn attributes(&self) -> Attributes {
         Attributes {
             strength: self.race.base_attributes.strength + self.bonus_attributes.strength,
@@ -34,7 +34,7 @@ impl Character {
 }
 
 
-impl combatable::Combatable for Character {
+impl<'a> combatable::Combatable for Character<'a> {
     fn move_to(&self, x: i32, y: i32) -> Result<EventRequest, combatable::CombatError>{
         let speed = self.attributes().speed;
         let x_distance  = (self.position.x - x).abs();
