@@ -24,3 +24,22 @@ impl Attributes {
         }
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_starting_attributes() {
+        /* This test is not too useful, but shows how to setup an unit test. */
+        let attributes = Attributes::starting_attributes();
+        assert_eq!(attributes.strength, 0);
+        assert_eq!(attributes.resilience, 0);
+        assert_eq!(attributes.dexterity, 0);
+        assert_eq!(attributes.spirit, 0);
+        assert_eq!(attributes.intelligence, 0);
+        assert_eq!(attributes.wisdom, 0);
+        assert_eq!(attributes.speed, 0);
+        assert_eq!(attributes.agility, 0);
+    }
+}
